@@ -1,0 +1,24 @@
+
+# this is the "requirements.txt" file...
+
+
+requests
+
+plotly
+
+pandas
+
+python-dotenv
+
+sendgrid==6.5.0
+
+
+#TEST
+
+pytest
+
+
+flask
+
+#PRODUCTION SERVER NEEDS THIS TO RUN THE WEBAPP
+gunicorn
