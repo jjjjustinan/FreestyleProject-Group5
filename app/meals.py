@@ -3,7 +3,7 @@ import json
 
 
 def search_by_ingredient(ingredient):
-    request_url = f"https://www.themealdb.com/api/json/v1/1/search.php?i={ingredient}"
+    request_url = f"https://www.themealdb.com/api/json/v1/1/filter.php?i={ingredient}"
     meal_data = requests.get(request_url).json()
     return meal_data
 
@@ -20,63 +20,95 @@ def search_by_area(area):
     return meal_data
 
 def run_csv(i, c, a):
-    d ={}
-    results1 = search_by_ingredient(i)
-    results2 = search_by_category(c)
-    results3 = search_by_area(a)
+    ids_ingredient = set()
+    ids_category = set()
+    ids_area = set()
 
-    ingredientarr = results1["meals"]
-    categoryarr = results2["meals"]
-    areaarr = results3["meals"]
-    
-    for food in ingredientarr:
-        if food["idMeal"] not in d:
-            d[food["idMeal"]] = food["strMeal"]
-    
-    for food in categoryarr:
-        if food["idMeal"] not in d:
-            d[food["idMeal"]] = food["strMeal"]
-    
-    for food in areaarr:
-        if food["idMeal"] not in d:
-            d[food["idMeal"]] = food["strMeal"]
-    
-    for key in d:
-        print(d[key])
-    
+    # Flags to check if any criteria are provided
+    criteria_provided = False
+
+    # Collect ids if ingredient is provided and not just spaces
+    if i and i.strip():
+        criteria_provided = True
+        results1 = search_by_ingredient(i.strip())
+        if results1 and results1["meals"]:
+            ids_ingredient = {food["idMeal"] for food in results1["meals"]}
+
+    # Collect ids if category is provided and not just spaces
+    if c and c.strip():
+        criteria_provided = True
+        results2 = search_by_category(c.strip())
+        if results2 and results2["meals"]:
+            ids_category = {food["idMeal"] for food in results2["meals"]}
+
+    # Collect ids if area is provided and not just spaces
+    if a and a.strip():
+        criteria_provided = True
+        results3 = search_by_area(a.strip())
+        if results3 and results3["meals"]:
+            ids_area = {food["idMeal"] for food in results3["meals"]}
+
+    # Initialize the dictionary
+    d = {}
+
+    # Find the intersection of ids if any criteria are provided, else return all meals
+    if criteria_provided:
+        all_ids = [ids_ingredient, ids_category, ids_area]
+        valid_ids = set.intersection(*[ids for ids in all_ids if ids])
+
+        if valid_ids:
+            for id in valid_ids:
+                meal_details = fetch_id(id)
+                if meal_details:
+                    d[id] = meal_details
+    else:
+        d = {}
+
     return d
 
+def fetch_id(meal_id):
+    request_url = f"https://www.themealdb.com/api/json/v1/1/lookup.php?i={meal_id}"
+    response = requests.get(request_url)
+    
+    if response.status_code == 200:
+        meal_data = response.json()
+        if meal_data and meal_data["meals"]:
+            meal = meal_data["meals"][0]
+            return {
+                "name": meal["strMeal"],
+                "image": meal["strMealThumb"]
+            }
+        else:
+            return None
+    else:
+        return None
+
 def recipe_search(id):
-    request_url = f"www.themealdb.com/api/json/v1/1/lookup.php?i={id}"
+    request_url = f"https://www.themealdb.com/api/json/v1/1/lookup.php?i={id}"
     recipe_data = requests.get(request_url).json()
 
     recipe_name = recipe_data["meals"][0]['strMeal']
     recipe_picture = recipe_data["meals"][0]['strMealThumb']
+    meal_category = recipe_data['meals'][0]['strCategory']
+    meal_area = recipe_data['meals'][0]['strArea']
+
+    ingredients_data = recipe_data["meals"][0]
+
     ingredients = []
-    measurements = []
 
-    i = 1
-
-    while i <= 20:
-
-        meal_ingredient = recipe_data['drinks'][0]['strIngredient' + str(i)]
-        meal_measure = recipe_data['drinks'][0]['strMeasure' + str(i)]
-
-        if meal_ingredient != None:
-            ingredients.append(meal_ingredient)
+    for i in range(1, 21):
+        ingredient_key = f"strIngredient{i}"
+        measure_key = f"strMeasure{i}"
+        ingredient = ingredients_data.get(ingredient_key)
+        measure = ingredients_data.get(measure_key)
+        if ingredient and ingredient.strip():
+            ingredients.append(f"{measure} {ingredient}")
 
 
-        if meal_measure != None:
-            measurements.append(meal_measure)
+    meal_instructions = recipe_data['meals'][0]['strInstructions']
+    meal_instructions = meal_instructions.replace(". ", ".<br>")
 
-        i += 1
-
-
-    meal_instructions = recipe_data['drinks'][0]['strInstructions']
-
-    meal_category = recipe_data['drinks'][0]['strCategory']
-
-    recipe = {'name':recipe_name, 'thumb':recipe_picture, 'ingredients':ingredients, 'measurements': measurements, 'instructions':meal_instructions, 'category':meal_category}
+    recipe = {'name':recipe_name, 'thumb':recipe_picture, 'ingredients':ingredients, 'instructions':meal_instructions, 'category':meal_category, 'area':meal_area}
 
     return recipe
 
@@ -86,6 +118,6 @@ if __name__ == '"__main__':
 
     name = input("\nEnter a meal name: ")
 
-    meal_data = search_by_name(name)
+    meal_data = search_by_ingredient(name)
 
     print(meal_data)

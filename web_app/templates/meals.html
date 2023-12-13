@@ -1,0 +1,33 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "meals" %}
+
+{% block content %}
+
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Meal Search Results</h1>
+
+        <!-- Check if meal_dict is not empty -->
+        {% if meal_dict %}
+            <div class="row">
+              {% for id, meal_name in meal_dict.items() %}
+                <div class="card" style="width: 18rem;">
+                  <img src="{{ meal_name['image']}}" class="img-thumbnail" alt="...">
+                  <div class="card-body">
+                   <h5 class="card-title">{{ meal_name['name'] }}</h5>
+                    <a href="/meal/{{ id }}" class="btn btn-primary">Get Recipe!</a>
+                  </div>
+                </div>
+
+            {% endfor %}
+            </div>
+        {% else %}
+            <p>No meals found.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
+
+{% endblock %}
