@@ -2,7 +2,6 @@ import requests
 import json
 
 
-
 def search_by_ingredient(ingredient):
     request_url = f"https://www.themealdb.com/api/json/v1/1/search.php?i={ingredient}"
     meal_data = requests.get(request_url).json()
