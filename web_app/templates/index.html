@@ -1,0 +1,73 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "index" %}
+
+{% block content %}
+
+    <h2>Recipe Search</h2>
+
+    <p>Please enter your choices</p>
+
+    <form action="/meal" method="POST">
+
+        <label>Ingredient Name:</label>
+        <input type="text" name="i" placeholder="" value="">
+        <br>
+
+        <label>Category:</label>
+        <select name="c">
+            <option value="">Any</option>
+            <option value="Beef">Beef</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Chicken">Chicken</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Goat">Goat</option>
+            <option value="Lamb">Lamb</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+            <option value="Pasta">Pasta</option>
+            <option value="Pork">Pork</option>
+            <option value="Seafood">Seafood</option>
+            <option value="Side">Side</option>
+            <option value="Starter">Starter</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Vegetarian">Vegetarian</option>
+        </select>
+        <br>
+
+        <label>Area:</label>
+        <select name="a">
+            <option value="">Any</option>
+            <option value="American">American</option>
+            <option value="British">British</option>
+            <option value="Canadian">Canadian</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Croatian">Croatian</option>
+            <option value="Dutch">Dutch</option>
+            <option value="Egyptian">Egyptian</option>
+            <option value="Filipino">Filipino</option>
+            <option value="French">French</option>
+            <option value="Greek">Greek</option>
+            <option value="Indian">Indian</option>
+            <option value="Irish">Irish</option>
+            <option value="Italian">Italian</option>
+            <option value="Jamaican">Jamaican</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Kenyan">Kenyan</option>
+            <option value="Malaysian">Malaysian</option>
+            <option value="Mexican">Mexican</option>
+            <option value="Moroccan">Moroccan</option>
+            <option value="Polish">Polish</option>
+            <option value="Portuguese">Portuguese</option>
+            <option value="Russian">Russian</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Thai">Thai</option>
+            <option value="Tunisian">Tunisian</option>
+            <option value="Turkish">Turkish</option>
+            <option value="Unknown">Unknown</option>
+            <option value="Vietnamese">Vietnamese</option>
+        </select>
+        <br>
+
+        <button class="btn btn-success">Submit</button>
+    </form>
+
+{% endblock %}

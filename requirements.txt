@@ -1,19 +1,13 @@
 
 # this is the "requirements.txt" file...
 
-
 requests
 
 pandas
 
-python-dotenv
-
-pillow
-
 #TEST
 
 pytest
-
 
 flask
 
