@@ -40,4 +40,14 @@
     </div>
 </div>
 
+<form method="POST" action="{{ url_for('meals_routes.recipe_page', meal_id=meal_id) }}">
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email">
+    </div>
+    <button type="submit" class="btn btn-primary">Send Recipe</button>
+</form>
+
+</div>
+
 {% endblock %}

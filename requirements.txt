@@ -5,6 +5,10 @@ requests
 
 pandas
 
+sendgrid
+
+pdfkit
+
 #TEST
 
 pytest
