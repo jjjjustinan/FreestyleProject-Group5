@@ -1,15 +1,17 @@
 import os
 
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Attachment, FileContent, FileName, FileType, Disposition, Mail
+from sendgrid.helpers.mail import Mail
+from dotenv import load_dotenv
 
-SENDGRID_API_KEY = "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"
-SENDER_ADDRESS = "jjjjustinan@gmail.com"
+load_dotenv() # go look in the .env file for any env vars
+
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDER_ADDRESS = os.getenv("SENDER_ADDRESS")
 
 def send_email(recipient_address=SENDER_ADDRESS, subject="YOUR REQUESTED RECIPE", html_content="YOUR REQUESTED RECIPE"):
     print("SENDING EMAIL TO:", recipient_address)
     print("SUBJECT:", subject)
-
     print("HTML:", html_content)
 
     client = SendGridAPIClient(SENDGRID_API_KEY)
