@@ -5,13 +5,9 @@ requests
 
 pandas
 
-sendgrid
+python-dotenv
 
-pdfkit
-
-#TEST
-
-pytest
+sendgrid==6.5.0
 
 flask
 
