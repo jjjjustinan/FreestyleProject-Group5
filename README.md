@@ -20,8 +20,8 @@ Create a ".env" file and paste in the following contents:
 ```sh
 # this is the ".env" file...
 
-MEALDB_API_KEY="1"
-SENDGRID_API_KEY=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
+MEALDB_API_KEY="____"
+SENDGRID_API_KEY=________
 SENDER_ADDRESS="jjjjustinan@gmail.com"
 
 
