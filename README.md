@@ -55,3 +55,6 @@ flask run
 ```
 
 ## [Deployment Guide](/DEPLOYING.md)
+
+### Live App
+To access the web app, you can click this link at https://freestyleprojectgroup5-2023.onrender.com/ and try our app for yourself!
