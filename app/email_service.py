@@ -21,11 +21,6 @@ def send_email(recipient_address=SENDER_ADDRESS, subject="YOUR REQUESTED RECIPE"
 
     try:
         response = client.send(message)
-
-        print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
-        print(response.status_code) #> 202 indicates SUCCESS
-        print(response.body)
-        print(response.headers)
         return response.status_code
 
     except Exception as err:

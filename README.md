@@ -25,11 +25,18 @@ SENDGRID_API_KEY="_________"
 SENDER_ADDRESS="example.gmail.com"
 
 
+
 ## Usage
 
 Install packages:
 ```sh
 pip install -r requirements.txt
+```
+
+## Testing
+
+```sh
+pytest
 ```
 
 ### Web App
@@ -46,3 +53,5 @@ FLASK_APP=web_app flask run
 export FLASK_APP=web_app
 flask run
 ```
+
+## [Deployment Guide](/DEPLOYING.md)

@@ -13,3 +13,9 @@ flask
 
 #PRODUCTION SERVER NEEDS THIS TO RUN THE WEBAPP
 gunicorn
+
+#TEST
+pytest
+
+# using bsoup in testing the web app:
+beautifulsoup4 # <-- ADDITION
