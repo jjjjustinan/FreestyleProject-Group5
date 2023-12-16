@@ -9,9 +9,17 @@ MEALDB_API_KEY = os.getenv("MEALDB_API_KEY")
 
 def search_by_ingredient(ingredient):
     request_url = f"https://www.themealdb.com/api/json/v1/{MEALDB_API_KEY}/filter.php?i={ingredient}"
-    meal_data = requests.get(request_url).json()
-    return meal_data
-
+    try:
+        response = requests.get(request_url)
+        meal_data = response.json()
+        if response.status_code == 200 and meal_data["meals"]:
+            return meal_data
+        else:
+            # Return an empty dictionary when no meals are found
+            return {"meals": None}
+    except Exception as e:
+        # Log the error if needed
+        return {"meals": None}
 
 def search_by_category(category):
     request_url = f"https://www.themealdb.com/api/json/v1/{MEALDB_API_KEY}/filter.php?c={category}"
@@ -36,7 +44,8 @@ def run_csv(i, c, a):
     if i and i.strip():
         criteria_provided = True
         results1 = search_by_ingredient(i.strip())
-        if results1 and results1["meals"]:
+        # Check if meals are present or if the result is not None
+        if results1 and results1.get("meals"):
             ids_ingredient = {food["idMeal"] for food in results1["meals"]}
 
     # Collect ids if category is provided and not just spaces
@@ -57,7 +66,7 @@ def run_csv(i, c, a):
     d = {}
 
     # Find the intersection of ids if any criteria are provided, else return all meals
-    if criteria_provided:
+    if criteria_provided and any([ids_ingredient, ids_category, ids_area]):
         all_ids = [ids_ingredient, ids_category, ids_area]
         valid_ids = set.intersection(*[ids for ids in all_ids if ids])
 
