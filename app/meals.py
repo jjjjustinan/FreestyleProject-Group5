@@ -1,21 +1,26 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+MEALDB_API_KEY = os.getenv("MEALDB_API_KEY")
 
 def search_by_ingredient(ingredient):
-    request_url = f"https://www.themealdb.com/api/json/v1/1/filter.php?i={ingredient}"
+    request_url = f"https://www.themealdb.com/api/json/v1/{MEALDB_API_KEY}/filter.php?i={ingredient}"
     meal_data = requests.get(request_url).json()
     return meal_data
 
 
 def search_by_category(category):
-    request_url = f"https://www.themealdb.com/api/json/v1/1/filter.php?c={category}"
+    request_url = f"https://www.themealdb.com/api/json/v1/{MEALDB_API_KEY}/filter.php?c={category}"
     meal_data = requests.get(request_url).json()
     return meal_data
 
 
 def search_by_area(area):
-    request_url = f"https://www.themealdb.com/api/json/v1/1/filter.php?a={area}"
+    request_url = f"https://www.themealdb.com/api/json/v1/{MEALDB_API_KEY}/filter.php?a={area}"
     meal_data = requests.get(request_url).json()
     return meal_data
 
@@ -67,7 +72,7 @@ def run_csv(i, c, a):
     return d
 
 def fetch_id(meal_id):
-    request_url = f"https://www.themealdb.com/api/json/v1/1/lookup.php?i={meal_id}"
+    request_url = f"https://www.themealdb.com/api/json/v1/{MEALDB_API_KEY}/lookup.php?i={meal_id}"
     response = requests.get(request_url)
     
     if response.status_code == 200:
@@ -84,7 +89,7 @@ def fetch_id(meal_id):
         return None
 
 def recipe_search(id):
-    request_url = f"https://www.themealdb.com/api/json/v1/1/lookup.php?i={id}"
+    request_url = f"https://www.themealdb.com/api/json/v1/{MEALDB_API_KEY}/lookup.php?i={id}"
     recipe_data = requests.get(request_url).json()
 
     recipe_name = recipe_data["meals"][0]['strMeal']
