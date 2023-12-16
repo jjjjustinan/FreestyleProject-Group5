@@ -1,5 +1,6 @@
 from app.meals import search_by_ingredient, search_by_category, search_by_area, run_csv, fetch_id, recipe_search
 
+
 def test_search_by_ingredient():
     
     data = search_by_ingredient("chicken_breast")
