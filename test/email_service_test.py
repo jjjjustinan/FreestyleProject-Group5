@@ -1,4 +1,4 @@
-from app.email_service import *
+from app.email_service import send_email
 
 
 def test_send_email():
